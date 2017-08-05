@@ -3,7 +3,9 @@ import cv2
 import numpy as np
 
 from keras.models import Sequential
-from keras.layers import Flatten, Dense
+from keras.layers import Flatten, Dense, Lambda
+from keras.layers.convolutional import Convolution2D
+from keras.layers.pooling import MaxPooling2D
 
 lines = []
 with open('data/driving_log.csv') as csvfile:
@@ -22,15 +24,34 @@ for line in lines:
     meassurement = float(line[3])
     meassurements.append(meassurement)
 
-X_train = np.array(images)
-y_train = np.array(meassurements)
+augmented_images, augmented_meassurements = [], []
+for image, meassurement in zip(images, meassurements):
+    #Add normal image
+    augmented_images.append(image)
+    augmented_meassurements.append(meassurement)
+    #Add flipped image
+    augmented_images.append( cv2.flip(image,1) )
+    augmented_meassurements.append(meassurement*-1.0)
+
+X_train = np.array(augmented_images)
+y_train = np.array(augmented_meassurements)
 
 
 model = Sequential()
-model.add(Flatten(input_shape=(160, 320, 3)))
+#Normalize
+model.add(Lambda(lambda x: (x / 255.0) - 0.5, input_shape=(160,320,3)))
+
+#LeNet
+model.add(Convolution2D(6, 5, 5, activation="relu"))
+model.add(MaxPooling2D())
+model.add(Convolution2D(6, 5, 5, activation="relu"))
+model.add(MaxPooling2D())
+model.add(Flatten())
+model.add(Dense(120))
+model.add(Dense(84))
 model.add(Dense(1))
 
 model.compile(loss='mse', optimizer='adam')
-model.fit(X_train, y_train, validation_split=0.2, shuffle=True, nb_epoch=7)
+model.fit(X_train, y_train, validation_split=0.2, shuffle=True, nb_epoch=5)
 
 model.save('model.h5')
