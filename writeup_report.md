@@ -145,4 +145,4 @@ Then the model crops and normalizes the image
 
 ![alt text][cropped]
 
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
+I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 5 as using any more did not decrease the loss and it could go up again. I used an adam optimizer so that manually training the learning rate wasn't necessary.
