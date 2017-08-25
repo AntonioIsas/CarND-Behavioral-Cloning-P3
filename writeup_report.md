@@ -21,7 +21,8 @@ The goals / steps of this project are the following:
 [flipped]: ./examples/flipped.jpg "Center Image - Flipped"
 [hls]: ./examples/hls.jpg "HLS Image"
 [cropped]: ./examples/cropped.jpg "Cropped Image"
-[loss]: ./examples/figure_1.png  "Loss"
+[loss]: ./examples/figure_1.png "Loss"
+[loss_dropout]: ./examples/figure_2.png  "Loss Dropout"
 
 ## Rubric Points
 Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
@@ -53,19 +54,26 @@ The model.py file contains the code for training and saving the convolution neur
 
 First of all my model preprocess the images by cropping some of the extra portions in the image (code line 74), Then I use a Keras Lambda layer to normalize the input (code line 75)
 
-The model I'm using is the NVidia Architecture, it consists of 3 convolution layers of 5x5 filter and depths 24, 36 and 48 (code lines 78-80)
+The model I'm using is the NVidia Architecture, it consists of 3 convolution layers of 5x5 filter and depths 24, 36 and 48 (code lines 78, 80, 82)
 
-Followed by two convolution layers with 3x3 filter and depth of 64 (code lines 81, 82)
+Followed by two convolution layers with 3x3 filter and depth of 64 (code lines 84, 86)
 
 The 5 convolution layers are using RELU for activation to introduce nonlinearity
 
-Then I use 3 fully connected layers of size 100, 50 and 10
+Then I use 3 fully connected layers of size 100, 50 and 10 (code lines 89, 91, 93)
 
-and a final fully connected layer that provides the output with the steering angle
+and a final fully connected layer that provides the output with the steering angle (code line 97)
+
+each of the hidden layers has a Dropout of 20% chance to prevent overfitting
 
 #### 2. Attempts to reduce overfitting in the model
 
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 23, 69,70 and 92). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 23, 69,70 and 100). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+
+The model without Dropout had low loss in both training and validations sets, but it was still struggling with a couple of curves when the shadows were displaying, after the dropout was introduced it handled it a lot better and was also able to drive it faster
+
+![alt text][loss]
+![alt text][loss_dropout]
 
 #### 3. Model parameter tuning
 
@@ -92,9 +100,11 @@ I run the simulator to see how well the car was driving around track one. There 
 
 After this training and some more tests the model was able to complete the first track but was not doing very well generalizing for the second one so I added more data from the second one and kept tuning.
 
-The model was doing well on both tracks, however when adding some details like the shadows it would run out off track on both. I realized the initial data didn't had any shadows so I added some more data as well as trying to use a different color space.
+The model was doing well on both tracks, however when adding some details like the shadows it would run off track on both. I realized the initial data didn't had any shadows so I added some more data as well as trying to use a different color space.
 
-At the end of the process, the vehicle is able to drive autonomously around both tracks without leaving the road. It still struggles with one of the curves of the second track when it has shadows but manages to stay on the road.
+With this changes, the vehicle is able to drive autonomously around both tracks without leaving the road. The model was still struggles with one of the curves of the second track when it had shadows but manages to stay on the road.
+
+I added dropout layers to prevent overfitting and now it is able to run both tracks at a speed of 20mph even if it has shadows
 
 #### 2. Final Model Architecture
 
@@ -147,4 +157,4 @@ Then the model crops and normalizes the image
 
 I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 5 as using any more did not decrease the loss and it could go up again. I used an adam optimizer so that manually training the learning rate wasn't necessary.
 
-After preparing the writeup I realized the normalization I used for the hls colorspace might be wrong however the model is able drive correctly like that, Perhaps using the correct one can improve the model as well as testing diferent color spaces
+After preparing the writeup I realized the normalization I used for the hls colorspace might be wrong as the Hue uses a different value however the model is able drive correctly like that, Perhaps using the correct one can improve the model as well as testing on different color spaces
