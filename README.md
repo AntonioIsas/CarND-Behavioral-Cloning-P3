@@ -1,3 +1,13 @@
+[//]: # (Image References)
+[center]: ./examples/center.jpg "Center Image"
+[left]: ./examples/left.jpg "Left Image"
+[right]: ./examples/right.jpg "Right Image"
+[flipped]: ./examples/flipped.jpg "Center Image - Flipped"
+[hls]: ./examples/hls.jpg "HLS Image"
+[cropped]: ./examples/cropped.jpg "Cropped Image"
+[loss]: ./examples/figure_1.png "Loss"
+[loss_dropout]: ./examples/figure_2.png  "Loss Dropout"
+
 # Behavioral Cloning Project
 
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
@@ -8,15 +18,11 @@ In this project, you will use what you've learned about deep neural networks and
 
 We have provided a simulator where you can steer a car around a track for data collection. You'll use image data and steering angles to train a neural network and then use this model to drive the car autonomously around the track.
 
-[//]: # (Image References)
-[center]: ./examples/center.jpg "Center Image"
-[left]: ./examples/left.jpg "Left Image"
-[right]: ./examples/right.jpg "Right Image"
-[flipped]: ./examples/flipped.jpg "Center Image - Flipped"
-[hls]: ./examples/hls.jpg "HLS Image"
-[cropped]: ./examples/cropped.jpg "Cropped Image"
-[loss]: ./examples/figure_1.png "Loss"
-[loss_dropout]: ./examples/figure_2.png  "Loss Dropout"
+## Results
+On the following links you can see a video of the Neural Network driving the car
+
+[Track1](https://youtu.be/nemlJOwIiSs)
+[Track2](https://youtu.be/WNQjeuCl7KE)
 
 ## Rubric Points
 Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
